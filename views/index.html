@@ -34,7 +34,7 @@
         .then(response => response.text())
         .then(data => {
           alert(data);
-          document.getElementById('sqlInjectionCheckbox').checked = data.includes('enabled');
+          document.getElementById('sqlInjectionCheckbox').checked = data.includes('omogućeno');
         });
     }
     function toggleInsecureStorage() {
@@ -42,7 +42,7 @@
         .then(response => response.text())
         .then(data => {
           alert(data);
-          document.getElementById('insecureStorageCheckbox').checked = data.includes('enabled');
+          document.getElementById('insecureStorageCheckbox').checked = data.includes('omogućena');
         });
     }
     // Initialize checkboxes based on current state
