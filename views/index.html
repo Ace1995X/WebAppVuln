@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WebApp ranjivosti</title>
+</head>
+<body>
+  <h1>WebApp ranjivosti</h1>
+  <form action="/login" method="post">
+    <h2>SQL umetanje</h2>
+    <label>Korisničko ime: <input type="text" name="username"></label><br>
+    <label>Lozinka: <input type="text" name="password"></label><br>
+    <button type="submit">Login</button>
+  </form>
+  <form action="/store-credit-card" method="post">
+    <h2>Pohrana informacija</h2>
+    <label>Broj kartice: <input type="text" name="cardNum"></label><br>
+    <label>Vlasnik kartice: <input type="text" name="cardHolder"></label><br>
+    <label>Datum isteka: <input type="text" name="exp"></label><br>
+    <label>CVV: <input type="text" name="cvv"></label><br>
+    <button type="submit">Store Credit Card</button>
+  </form>
+  <h2>Uključi/isključi funkcionalnost</h2>
+  <label>
+    <input type="checkbox" id="sqlInjectionCheckbox" onclick="toggleSQLInjection()"> SQL umetanje
+  </label><br>
+  <label>
+    <input type="checkbox" id="insecureStorageCheckbox" onclick="toggleInsecureStorage()"> Nesigurna pohrana
+  </label>
+  <script>
+    function toggleSQLInjection() {
+      fetch('/toggle-sql-injection', { method: 'POST' })
+        .then(response => response.text())
+        .then(data => {
+          alert(data);
+          document.getElementById('sqlInjectionCheckbox').checked = data.includes('enabled');
+        });
+    }
+    function toggleInsecureStorage() {
+      fetch('/toggle-insecure-storage', { method: 'POST' })
+        .then(response => response.text())
+        .then(data => {
+          alert(data);
+          document.getElementById('insecureStorageCheckbox').checked = data.includes('enabled');
+        });
+    }
+    // Initialize checkboxes based on current state
+    fetch('/status')
+      .then(response => response.json())
+      .then(data => {
+        document.getElementById('sqlInjectionCheckbox').checked = data.sqlInjectionEnabled;
+        document.getElementById('insecureStorageCheckbox').checked = data.insecureStorageEnabled;
+      });
+  </script>
+</body>
+</html>
